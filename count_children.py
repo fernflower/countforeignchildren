@@ -25,7 +25,6 @@ def _get_years(df, years_row=547, first_col=100, last_col=-1):
 
 
 def do_count(df, first_row, last_row, year, max_age=18):
-    data = df[df[COLUMN].notnull()]
     countries = [c for c in df[COLUMN][first_row:last_row].to_list()
                  if isinstance(c, str) and not c.endswith('Celkem')]
     years = _get_years(df)
