@@ -6,7 +6,18 @@ A script to comfortably query [xlsx file with the latest foreigners statistics](
 
 In a python 3.6+ virtualenv:
 1. Install requirements with `pip install -r requirements.txt`
-2. Run the script with `python count_children.py priloha_882435642_1_TDU_věk_2019-2020.xlsx`
+2. Run the script. Currently two modes are supported controlled by --csv flag: to process data from the select age
+interval and generate csv with expenses per specific age groups.
+
+```
+python count_children.py --file priloha_882435642_1_TDU_věk_2019-2020.xlsx  --non-eu --year 2020 --max-age=17 --min-age=0`
+
+Foreigners (visa over 90 days and long-term residence) from non EU countries born 2003 - 2020 by 31/12/2020 - 14066
+```
+
+```
+python count_children.py  --file priloha_882435642_1_TDU_věk_2019-2020.xlsx  --year 2020 --max-age=95 --min-age=0 --csv
+```
 
 The script will produce an out.csv with the following information: foreigners (visa over 90 days and long-term residence)
 numbers for different age groups and VZP expenses for those groups in year 2019.
