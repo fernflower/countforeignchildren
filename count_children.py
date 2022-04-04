@@ -8,8 +8,8 @@ import pandas as pd
 COLUMN = 'Počet cizinců se zaevidovaným povoleným pobytem  na území ČR (orientační statistické údaje)'
 EU_COUNTRIES = {
         "Belgie", "Bulharsko", "Dánsko", "Estonsko", "Finsko", "Chorvatsko", "Irsko", "Itálie", "Kypr",
-        "Litva", "Španělsko", "Švédsko", "Maďarsko", "Malta", "	Německo", "Nizozemsko", "Polsko", "Portugalsko",
-        "Rakousko", "Rumunsko", "Řecko", "Slovensko", "Slovinsko", "Lotyšsko", "Lucembursko"
+        "Litva", "Španělsko", "Švédsko", "Maďarsko", "Malta", "Německo", "Nizozemsko", "Polsko", "Portugalsko",
+        "Rakousko", "Rumunsko", "Řecko", "Slovensko", "Slovinsko", "Lotyšsko", "Lucembursko", "Francie", "Švýcarsko"
 }
 ADULT_AGE = 18
 # According to Výsledky zdravotnických účtů ČR - 2010–2019
@@ -107,6 +107,7 @@ def parse_args(args):
     parser.add_argument('--year', help='Year to get data for', default=2019, choices=[2019, 2020], type=int)
     parser.add_argument('--output', help='Filename for resulting csv with expenses per age group', default=OUT)
     parser.add_argument('--csv', help='Run in generate expenses output mode', action='store_true')
+    parser.add_argument('-v', '--verbose', help='Print as much details as possible', action='store_true')
     return parser.parse_args(args)
 
 
@@ -161,7 +162,10 @@ def run(args=sys.argv[1:]):
     if parsed_args.csv:
         generate_expenses_csv(parsed_args, first_row_map, last_row_map)
     else:
-        process_interval(parsed_args, first_row_map, last_row_map)
+        res = process_interval(parsed_args, first_row_map, last_row_map)
+        if parsed_args.verbose:
+            sorted_res = sorted([(res[c], c) for c in res], key=lambda x: x[0], reverse=True)
+            print('\n'.join(f'{r[1]} - {r[0]}' for r in sorted_res))
 
 
 if __name__ == '__main__':
